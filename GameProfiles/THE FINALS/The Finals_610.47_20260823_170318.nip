@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfProfile>
+  <Profile>
+    <ProfileName>The Finals</ProfileName>
+    <Executeables>
+      <string>discovery-e.exe</string>
+      <string>discovery-d.exe</string>
+      <string>discovery-win64-shipping.exe</string>
+      <string>discovery.exe</string>
+      <string>thefinals.exe</string>
+    </Executeables>
+    <Settings />
+    <ExecutableFindFiles />
+  </Profile>
+</ArrayOfProfile>

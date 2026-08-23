@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfProfile>
+  <Profile>
+    <ProfileName>RUST</ProfileName>
+    <Executeables>
+      <string>rustclient.exe</string>
+      <string>rust.exe</string>
+    </Executeables>
+    <Settings />
+    <ExecutableFindFiles />
+  </Profile>
+</ArrayOfProfile>
