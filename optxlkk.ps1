@@ -33,22 +33,28 @@ Write-Host "========================================"
 Write-Host "          GAMINGPROFILES"
 Write-Host "========================================"
 Write-Host ""
-Get-ChildItem ".\GameProfiles"
-Write-Host "[0] Back"
-Write-Host ""
 
-            switch ($choice) { 
+$profiles = @(Get-ChildItem ".\GameProfiles" -Directory)
 
+    for ($i = 0; $i -lt $profiles.Count; $i++) {
+        Write-Host "[$($i + 1)] $($profiles[$i].Name)"
+    }
+    
+    Write-Host "[0] Back"
+    Write-Host ""
 
-                "0" { 
+    $choice = Read-Host "Select option"
 
-                    return }
+    if ($choice -eq "0") {
+        return
+    }
 
-                    default {
-                        Write-Host "Unknown option!"
-                    }
+    $index = [int]$choice - 1 
+    if ($index -ge 0 -and $index -lt $profiles.Count) {
+        $selectedFolder = $profiles[$index]
+        Write-Host "Вы выбрали игру: $($selectedFolder.Name)"
+    }
 
-            }
             Read-Host "Press Enter to return to menu"   
 }    
 function Show-Applications {
