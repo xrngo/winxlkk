@@ -2,7 +2,80 @@
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
 Clear-Host
+function Show-GameProfileMenu {
 
+    param (
+        $selectedFolder
+    )
+
+    while ($true) {
+
+        Clear-Host
+
+        Write-Host "========================================"
+        Write-Host "       Профиль игры: $($selectedFolder.Name)"
+        Write-Host "========================================"
+        Write-Host ""
+
+       
+        $nipProfiles = @(Get-ChildItem -Path $selectedFolder.FullName -Filter "*.nip" -File)
+
+        if ($nipProfiles.Count -gt 0) {
+            Write-Host "NVIDIA Profile Inspector"
+            Write-Host ""
+            Write-Host "Профиль найден:" -ForegroundColor Green
+
+            foreach ($profile in $nipProfiles) {
+                Write-Host " - $($profile.Name)"
+            }
+
+            Write-Host ""
+            Write-Host "[1] NVIDIA Profile Inspector"
+        }
+        else {
+            Write-Host "NVIDIA Profile Inspector"
+            Write-Host ""
+            Write-Host "Профиль не найден!" -ForegroundColor Red
+        }
+
+        Write-Host ""
+        Write-Host "[0] Назад"
+        Write-Host ""
+
+        $choice = Read-Host "Выберите действие"
+
+        switch ($choice) {
+
+            "1" {
+
+                if ($nipProfiles.Count -gt 0) {
+
+                    Write-Host ""
+                    Write-Host "Найден профиль:"
+                    Write-Host $nipProfiles[0].FullName
+
+                    Read-Host "Нажмите Enter, чтобы продолжить"
+                }
+                else {
+
+                    Write-Host ""
+                    Write-Host "Профиль отсутствует!"
+                    Read-Host "Нажмите Enter, чтобы продолжить"
+                }
+            }
+
+            "0" {
+                return
+            }
+
+            default {
+                Write-Host ""
+                Write-Host "Неизвестная опция!"
+                Read-Host "Нажмите Enter, чтобы продолжить"
+            }
+        }
+    }
+}
 function Show-SystemInfo {
 
     $os = Get-CimInstance Win32_OperatingSystem
@@ -10,12 +83,10 @@ function Show-SystemInfo {
     $gpu = Get-CimInstance Win32_VideoController
     $ram = Get-CimInstance Win32_ComputerSystem
     $ramGB = [math]::Round($ram.TotalPhysicalMemory / 1GB, 2)
-    $profiles = Get-ChildItem ".\GameProfiles" -Directory
+    
 
-    for ($i = 0; $i -lt $profiles.Count; $i++) {
-    Write-Host "[$($i + 1)] $($profiles[$i].Name)"
-    }
 
+    Clear-Host
     Write-Host ""
     Write-Host "========== Информация о системе =========="
     Write-Host ""
@@ -26,6 +97,8 @@ function Show-SystemInfo {
     Write-Host "GPU: $($gpu.Name)"
     Write-Host "RAM: $($ramGB) GB"
     Write-Host ""
+
+   
 }
 function Show-Cleanup {
     Clear-Host
@@ -72,38 +145,67 @@ function Show-Cleanup {
     Start-Process -FilePath "cleanmgr.exe" -ArgumentList "/sagerun:1" -Wait -WindowStyle Hidden
 
     Write-Host "Очистка полностью завершена!" -ForegroundColor Green
-}
 
-function Show-GamingProfiles {
-Clear-Host
-Write-Host "========================================"
-Write-Host "          Профили для игр "
-Write-Host "========================================"
-Write-Host ""
+    Read-Host "Нажмите Enter, чтобы вернуться в меню"
 
-$profiles = @(Get-ChildItem ".\GameProfiles" -Directory)
-
-    for ($i = 0; $i -lt $profiles.Count; $i++) {
-        Write-Host "[$($i + 1)] $($profiles[$i].Name)"
-    }
     
-    Write-Host "[0] Назад"
-    Write-Host ""
+    # нет сообщения о завершении очистки
+    # нет сообщения о завершении очистки
+    # нет сообщения о завершении очистки
+    # нет сообщения о завершении очистки
+    # нет сообщения о завершении очистки
+   
+}
+function Show-GamingProfiles {
+         while ($true) {
 
-    $choice = Read-Host "Выберите игру"
+            Clear-Host
 
-    if ($choice -eq "0") {
-        return
-    }
+            Write-Host "========================================"
+            Write-Host "          Профили для игр"
+            Write-Host "========================================"
+            Write-Host ""
 
-    $index = [int]$choice - 1 
-    if ($index -ge 0 -and $index -lt $profiles.Count) {
-        $selectedFolder = $profiles[$index]
-        Write-Host "Вы выбрали игру: $($selectedFolder.Name)"
-    }
+            $profiles = @(Get-ChildItem ".\GameProfiles" -Directory)
 
-            Read-Host "Нажмите Enter, чтобы вернуться в меню"   
-}    
+            for ($i = 0; $i -lt $profiles.Count; $i++) {
+                Write-Host "[$($i + 1)] $($profiles[$i].Name)"
+            }
+
+            Write-Host "[0] Назад"
+            Write-Host ""
+
+            $choice = Read-Host "Выберите игру"
+
+            if ($choice -eq "0") {
+                return
+            }
+
+            try {
+                $index = [int]$choice - 1
+
+                if ($index -ge 0 -and $index -lt $profiles.Count) {
+
+                    $selectedFolder = $profiles[$index]
+
+                    Show-GameProfileMenu $selectedFolder
+                }
+                
+                else {
+                    Write-Host ""
+                    Write-Host "Неверный номер игры"
+                    Read-Host "Нажмите Enter, чтобы продолжить"
+                }
+            }
+            catch {
+                Write-Host ""
+                Write-Host "Нужно ввести число!"
+                Read-Host "Нажмите Enter, чтобы продолжить"
+            }
+
+        }
+   
+}  
 function Show-Applications {
 
 }
@@ -114,21 +216,21 @@ function Show-MainMenu {
 
       while ($true) {
 
-Clear-Host
-Write-Host "========================================"
-Write-Host "          winxlkk"
-Write-Host "========================================"
-Write-Host ""
-Write-Host "[1] Информация о системе"
-Write-Host "[2] Очистка"
-Write-Host "[3] Профили для игр"
-Write-Host "[4] Приложения"
-Write-Host "[0] Выход"
-Write-Host ""
+        Clear-Host
+        Write-Host "========================================"
+        Write-Host "          winxlkk"
+        Write-Host "========================================"
+        Write-Host ""
+        Write-Host "[1] Информация о системе"
+        Write-Host "[2] Очистка"
+        Write-Host "[3] Профили для игр"
+        Write-Host "[4] Приложения"
+        Write-Host "[0] Выход"
+        Write-Host ""
 
-$choice = Read-Host "Выберите опцию"
+        $choice = Read-Host "Выберите опцию"
 
-switch ($choice) {
+        switch ($choice) {
 
     "1" { 
 
@@ -147,7 +249,7 @@ switch ($choice) {
     "3" {
         
         Show-GamingProfiles
-        Read-Host "Нажмите Enter, чтобы вернуться в меню"
+        
     
     }
 
@@ -172,7 +274,7 @@ switch ($choice) {
         Read-Host "Нажмите Enter, чтобы продолжить"
 
     }
-}
-}   
+    }
+    }   
 }
 Show-MainMenu

@@ -9,7 +9,14 @@
       <string>discovery.exe</string>
       <string>thefinals.exe</string>
     </Executeables>
-    <Settings />
+    <Settings>
+      <ProfileSetting>
+        <SettingNameInfo>Maximum pre-rendered frames</SettingNameInfo>
+        <SettingID>8102046</SettingID>
+        <SettingValue>1</SettingValue>
+        <ValueType>Dword</ValueType>
+      </ProfileSetting>
+    </Settings>
     <ExecutableFindFiles />
   </Profile>
 </ArrayOfProfile>
