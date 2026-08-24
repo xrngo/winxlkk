@@ -14,71 +14,88 @@ function Show-GameProfileMenu {
         Clear-Host
 
         Write-Host "========================================"
-        Write-Host "       Профиль игры: $($selectedFolder.Name)"
+        Write-Host "       Профиль игры: $($selectedFolder.name)"
         Write-Host "========================================"
         Write-Host ""
 
-       
-        $nipProfiles = @(
-            Invoke-RestMethod $selectedFolder.url |
-            Where-Object {
-                $_.type -eq "file" -and $_.name -like "*.nip"
-            }
-        )
+        try {
+
+            $nipProfiles = @(
+                Invoke-RestMethod $selectedFolder.url |
+                Where-Object {
+                    $_.type -eq "file" -and
+                    $_.name -like "*.nip"
+                }
+            )
+        }
+        catch {
+
+            Write-Host ""
+            Write-Host "Не удалось получить профили с GitHub!" -ForegroundColor Red
+            Read-Host "Нажмите Enter, чтобы продолжить"
+            return
+        }
 
         if ($nipProfiles.Count -gt 0) {
+
             Write-Host "NVIDIA Profile Inspector"
             Write-Host ""
-            Write-Host "Профиль найден:" -ForegroundColor Green
 
-            foreach ($profile in $nipProfiles) {
-                Write-Host " - $($profile.name)"
+            for ($i = 0; $i -lt $nipProfiles.Count; $i++) {
+
+                Write-Host "[$($i + 1)] $($nipProfiles[$i].name)"
             }
 
-            Write-Host ""
-            Write-Host "[1] NVIDIA Profile Inspector"
         }
         else {
-            Write-Host "NVIDIA Profile Inspector"
-            Write-Host ""
-            Write-Host "Профиль не найден!" -ForegroundColor Red
+
+            Write-Host "Профили .nip не найдены!" -ForegroundColor Yellow
         }
 
         Write-Host ""
         Write-Host "[0] Назад"
         Write-Host ""
 
-        $choice = Read-Host "Выберите действие"
+        $choice = Read-Host "Выберите профиль"
 
-        switch ($choice) {
+        if ($choice -eq "0") {
+            return
+        }
 
-            "1" {
+        try {
 
-                if ($nipProfiles.Count -gt 0) {
+            $index = [int]$choice - 1
 
-                    Write-Host ""
-                    Write-Host "Найден профиль:"
-                    Write-Host $nipProfiles[0].name
+            if ($index -ge 0 -and $index -lt $nipProfiles.Count) {
 
-                    Read-Host "Нажмите Enter, чтобы продолжить"
-                }
-                else {
+                $selectedProfile = $nipProfiles[$index]
 
-                    Write-Host ""
-                    Write-Host "Профиль отсутствует!"
-                    Read-Host "Нажмите Enter, чтобы продолжить"
-                }
-            }
+                Clear-Host
 
-            "0" {
-                return
-            }
-
-            default {
+                Write-Host "========================================"
+                Write-Host "          Выбран профиль"
+                Write-Host "========================================"
                 Write-Host ""
-                Write-Host "Неизвестная опция!"
+
+                Write-Host "Игра:    $($selectedFolder.name)"
+                Write-Host "Профиль: $($selectedProfile.name)"
+                Write-Host ""
+
                 Read-Host "Нажмите Enter, чтобы продолжить"
             }
+            else {
+
+                Write-Host ""
+                Write-Host "Неверный номер профиля!" -ForegroundColor Red
+                Read-Host "Нажмите Enter, чтобы продолжить"
+            }
+
+        }
+        catch {
+
+            Write-Host ""
+            Write-Host "Нужно ввести число!" -ForegroundColor Red
+            Read-Host "Нажмите Enter, чтобы продолжить"
         }
     }
 }
@@ -163,54 +180,84 @@ function Show-Cleanup {
    
 }
 function Show-GamingProfiles {
-         while ($true) {
 
-            Clear-Host
+    while ($true) {
 
-            Write-Host "========================================"
-            Write-Host "          Профили для игр"
-            Write-Host "========================================"
-            Write-Host ""
+        Clear-Host
 
-            $profiles = @(Invoke-RestMethod "$GitHubApi/GameProfiles" | Where-Object { $_.type -eq "dir" })
+        Write-Host "========================================"
+        Write-Host "          Профили для игр"
+        Write-Host "========================================"
+        Write-Host ""
 
-            for ($i = 0; $i -lt $profiles.Count; $i++) {
-                Write-Host "[$($i + 1)] $($profiles[$i].name)"
-            }
+        try {
 
-            Write-Host "[0] Назад"
-            Write-Host ""
+            $response = Invoke-RestMethod "$GitHubApi/GameProfiles"
 
-            $choice = Read-Host "Выберите игру"
+            # Создаём пустой массив
+            $profiles = @()
 
-            if ($choice -eq "0") {
-                return
-            }
+            # Добавляем каждую папку отдельно
+            foreach ($item in $response) {
 
-            try {
-                $index = [int]$choice - 1
-
-                if ($index -ge 0 -and $index -lt $profiles.Count) {
-
-                    $selectedFolder = $profiles[$index]
-
-                    Show-GameProfileMenu $selectedFolder
-                }
-                
-                else {
-                    Write-Host ""
-                    Write-Host "Неверный номер игры"
-                    Read-Host "Нажмите Enter, чтобы продолжить"
+                if ($item.type -eq "dir") {
+                    $profiles += $item
                 }
             }
-            catch {
+
+        }
+        catch {
+
+            Write-Host ""
+            Write-Host "Ошибка подключения к GitHub!" -ForegroundColor Red
+            Write-Host $_.Exception.Message -ForegroundColor Red
+            Write-Host ""
+
+            Read-Host "Нажмите Enter, чтобы вернуться"
+            return
+        }
+
+        # Показываем список
+        for ($i = 0; $i -lt $profiles.Count; $i++) {
+
+            Write-Host "[$($i + 1)] $($profiles[$i].name)"
+        }
+
+        Write-Host ""
+        Write-Host "[0] Назад"
+        Write-Host ""
+
+        $choice = Read-Host "Выберите игру"
+
+        if ($choice -eq "0") {
+            return
+        }
+
+        try {
+
+            $index = [int]$choice - 1
+
+            if ($index -ge 0 -and $index -lt $profiles.Count) {
+
+                $selectedFolder = $profiles[$index]
+
+                Show-GameProfileMenu $selectedFolder
+            }
+            else {
+
                 Write-Host ""
-                Write-Host "Нужно ввести число!"
+                Write-Host "Неверный номер игры!" -ForegroundColor Red
                 Read-Host "Нажмите Enter, чтобы продолжить"
             }
 
         }
-   
+        catch {
+
+            Write-Host ""
+            Write-Host "Нужно ввести число!" -ForegroundColor Red
+            Read-Host "Нажмите Enter, чтобы продолжить"
+        }
+    }
 }  
 function Show-Applications {
 
