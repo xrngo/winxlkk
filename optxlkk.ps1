@@ -1,5 +1,6 @@
 ﻿[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
+$GitHubApi = "https://api.github.com/repos/xrngo/winxlkk/contents"
 
 Clear-Host
 function Show-GameProfileMenu {
@@ -18,7 +19,12 @@ function Show-GameProfileMenu {
         Write-Host ""
 
        
-        $nipProfiles = @(Get-ChildItem -Path $selectedFolder.FullName -Filter "*.nip" -File)
+        $nipProfiles = @(
+            Invoke-RestMethod $selectedFolder.url |
+            Where-Object {
+                $_.type -eq "file" -and $_.name -like "*.nip"
+            }
+        )
 
         if ($nipProfiles.Count -gt 0) {
             Write-Host "NVIDIA Profile Inspector"
@@ -26,7 +32,7 @@ function Show-GameProfileMenu {
             Write-Host "Профиль найден:" -ForegroundColor Green
 
             foreach ($profile in $nipProfiles) {
-                Write-Host " - $($profile.Name)"
+                Write-Host " - $($profile.name)"
             }
 
             Write-Host ""
@@ -52,7 +58,7 @@ function Show-GameProfileMenu {
 
                     Write-Host ""
                     Write-Host "Найден профиль:"
-                    Write-Host $nipProfiles[0].FullName
+                    Write-Host $nipProfiles[0].name
 
                     Read-Host "Нажмите Enter, чтобы продолжить"
                 }
@@ -166,10 +172,10 @@ function Show-GamingProfiles {
             Write-Host "========================================"
             Write-Host ""
 
-            $profiles = @(Get-ChildItem ".\GameProfiles" -Directory)
+            $profiles = @(Invoke-RestMethod "$GitHubApi/GameProfiles" | Where-Object { $_.type -eq "dir" })
 
             for ($i = 0; $i -lt $profiles.Count; $i++) {
-                Write-Host "[$($i + 1)] $($profiles[$i].Name)"
+                Write-Host "[$($i + 1)] $($profiles[$i].name)"
             }
 
             Write-Host "[0] Назад"
