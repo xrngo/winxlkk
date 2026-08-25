@@ -27,13 +27,16 @@ function Show-GameProfileMenu {
                     $_.name -like "*.nip"
                 }
             )
+
         }
         catch {
 
             Write-Host ""
             Write-Host "Не удалось получить профили с GitHub!" -ForegroundColor Red
+
             Read-Host "Нажмите Enter, чтобы продолжить"
-            return
+
+            return $false
         }
 
         if ($nipProfiles.Count -gt 0) {
@@ -59,7 +62,7 @@ function Show-GameProfileMenu {
         $choice = Read-Host "Выберите профиль"
 
         if ($choice -eq "0") {
-            return
+            return $false
         }
 
         try {
@@ -81,20 +84,66 @@ function Show-GameProfileMenu {
                 Write-Host "Профиль: $($selectedProfile.name)"
                 Write-Host ""
 
-                Read-Host "Нажмите Enter, чтобы продолжить"
+                $confirm = Read-Host "Скачать этот профиль на Рабочий стол? (Y/N)"
+
+                if ($confirm -match '^[YyДд]') {
+
+                    Write-Host ""
+                    Write-Host "Скачивание профиля..." -ForegroundColor Yellow
+
+                    $downloadUrl = $selectedProfile.download_url
+
+                    $desktopPath = [Environment]::GetFolderPath("Desktop")
+
+                    $savePath = Join-Path `
+                        -Path $desktopPath `
+                        -ChildPath $selectedProfile.name
+
+                    try {
+
+                        Invoke-WebRequest `
+                            -Uri $downloadUrl `
+                            -OutFile $savePath
+
+                        Write-Host ""
+                        Write-Host "Файл успешно скачан!" -ForegroundColor Green
+                        Write-Host "Сохранен сюда: $savePath" -ForegroundColor Cyan
+                        Write-Host ""
+
+                        Read-Host "Нажмите Enter для возврата в Главное меню"
+
+                        return $true
+                    }
+                    catch {
+
+                        Write-Host ""
+                        Write-Host "Ошибка при скачивании:" -ForegroundColor Red
+                        Write-Host $_.Exception.Message -ForegroundColor Red
+
+                        Read-Host "Нажмите Enter, чтобы продолжить"
+                    }
+                }
+                else {
+
+                    Write-Host ""
+                    Write-Host "Скачивание отменено." -ForegroundColor Yellow
+
+                    Read-Host "Нажмите Enter, чтобы продолжить"
+                }
             }
             else {
 
                 Write-Host ""
                 Write-Host "Неверный номер профиля!" -ForegroundColor Red
+
                 Read-Host "Нажмите Enter, чтобы продолжить"
             }
-
         }
         catch {
 
             Write-Host ""
             Write-Host "Нужно ввести число!" -ForegroundColor Red
+
             Read-Host "Нажмите Enter, чтобы продолжить"
         }
     }
@@ -194,17 +243,14 @@ function Show-GamingProfiles {
 
             $response = Invoke-RestMethod "$GitHubApi/GameProfiles"
 
-            # Создаём пустой массив
-            $profiles = @()
+        $profiles = @()
 
-            # Добавляем каждую папку отдельно
-            foreach ($item in $response) {
+        foreach ($item in $response) {
 
                 if ($item.type -eq "dir") {
                     $profiles += $item
                 }
-            }
-
+         }
         }
         catch {
 
@@ -214,11 +260,11 @@ function Show-GamingProfiles {
             Write-Host ""
 
             Read-Host "Нажмите Enter, чтобы вернуться"
+
             return
         }
 
-        # Показываем список
-        for ($i = 0; $i -lt $profiles.Count; $i++) {
+    for ($i = 0; $i -lt $profiles.Count; $i++) {
 
             Write-Host "[$($i + 1)] $($profiles[$i].name)"
         }
@@ -241,26 +287,144 @@ function Show-GamingProfiles {
 
                 $selectedFolder = $profiles[$index]
 
-                Show-GameProfileMenu $selectedFolder
+                $goHome = Show-GameProfileMenu $selectedFolder
+
+                if ($goHome -eq $true) {
+                    return
+                }
             }
             else {
 
                 Write-Host ""
                 Write-Host "Неверный номер игры!" -ForegroundColor Red
-                Read-Host "Нажмите Enter, чтобы продолжить"
-            }
 
+                Read-Host "Нажмите Enter, чтобы продолжить"
+           }
         }
         catch {
 
             Write-Host ""
             Write-Host "Нужно ввести число!" -ForegroundColor Red
+
             Read-Host "Нажмите Enter, чтобы продолжить"
         }
     }
-}  
+}
 function Show-Applications {
+    
+    $apps = @(
+        [PSCustomObject]@{ Name = "7-Zip"; Id = "7zip.7zip"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "brave"; Id = "Brave.Brave"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "msi afterburner"; Id = "Guru3D.Afterburner"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "fan control"; Id = "Rem0o.FanControl"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "bcuninstaller"; Id = "Klocman.BulkCrapUninstaller"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "cru"; Id = "ToastyX.CustomResolutionUtility"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "ddu"; Id = "Wagnardsoft.DisplayDriverUninstaller"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "nvidia profile inspector"; Id = "Orbmu2k.nvidiaProfileInspector"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "autoruns"; Id = "Microsoft.Sysinternals.Autoruns"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "NVCleinstal"; Id = "TechPowerUp.NVCleanstall"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "VLC media"; Id = "VideoLAN.VLC"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "ISLC"; Id = "Wagnardsoft.ISLC"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "VS code"; Id = "Microsoft.VisualStudioCode"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "discord"; Id = "Discord.Discord"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "steam"; Id = "Valve.Steam"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "spotify"; Id = "Spotify.Spotify"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "equalizer APO"; Id = "jthedering.EqualizerAPO"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "peace Equalizer"; Id = "PeterVerbeek.Peace"; IsWinget = $true }
+        [PSCustomObject]@{ Name = "MSI Mode Utility"; Id = "https://forums.guru3d.com/threads/windows-7-8-8-1-10-msi-line-based-vs-message-signaled-based-interrupts.378044/"; IsWinget = $false }
+    )
 
+    while ($true) {
+        Clear-Host
+        Write-Host "========================================"
+        Write-Host "          Библиотека приложений"
+        Write-Host "========================================"
+        Write-Host ""
+        Write-Host "Доступно для автоматической установки:" -ForegroundColor Cyan
+        Write-Host ""
+
+        for ($i = 0; $i -lt $apps.Count; $i++) {
+            Write-Host "[$($i + 1)] $($apps[$i].Name)"
+        }
+
+        Write-Host ""
+        Write-Host "[0] Назад"
+        Write-Host ""
+
+        $choice = Read-Host "Выберите программу для установки"
+
+        if ($choice -eq "0") {
+            return
+        }
+
+        try {
+            $index = [int]$choice - 1
+
+            if ($index -ge 0 -and $index -lt $apps.Count) {
+                $selectedApp = $apps[$index]
+
+                Clear-Host
+                Write-Host "========================================"
+                Write-Host "          Установка программы"
+                Write-Host "========================================"
+                Write-Host ""
+
+                if ($selectedApp.IsWinget) {
+                    Write-Host "Скачивание и установка: $($selectedApp.Name)..." -ForegroundColor Yellow
+                    Write-Host "Пожалуйста, подождите. Может появиться окно контроля учетных записей (UAC)." -ForegroundColor DarkGray
+                    Write-Host ""
+
+                    $wingetArgs = "install --id `"$($selectedApp.Id)`" --exact --silent --accept-package-agreements --accept-source-agreements"
+                    $process = Start-Process -FilePath "winget" -ArgumentList $wingetArgs -Wait -NoNewWindow -PassThru
+
+                    if ($process.ExitCode -eq 0) {
+                        Write-Host "`nУстановка успешно завершена!" -ForegroundColor Green
+                        Write-Host ""
+                        Read-Host "Нажмите Enter для возврата в Главное меню"
+                        return 
+                    } else {
+                        Write-Host "`nПрограмма уже установлена, либо установка отменена (Код: $($process.ExitCode))." -ForegroundColor Yellow
+                        Write-Host ""
+                        Read-Host "Нажмите Enter, чтобы вернуться к списку приложений"
+                    }
+                } else {
+                    Write-Host "$($selectedApp.Name) недоступна в winget." -ForegroundColor Yellow
+                    Write-Host "Открыть официальный сайт для скачивания? (Y/N): " -NoNewline -ForegroundColor White
+
+                    # --- ИСПРАВЛЕННЫЙ БЛОК ---
+                    # Ждем нажатия реальной буквы, пропуская служебные клавиши (Shift/Alt/Ctrl)
+                    do {
+                        $keyInfo = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+                    } while ($keyInfo.Character -eq 0)
+
+                    $key = $keyInfo.Character
+                    Write-Host $key 
+
+                    if ($key -match '[yYдДнН]') {
+                        Write-Host "`nОткрываю браузер..." -ForegroundColor Green
+                        Start-Process $selectedApp.Id
+                        
+                        Write-Host ""
+                        return 
+                    } else {
+                        Write-Host "`nДействие отменено. Возврат к списку." -ForegroundColor DarkGray
+                        Start-Sleep -Seconds 2
+                    }
+                    # -------------------------
+                }
+            }
+            else {
+                Write-Host ""
+                Write-Host "Неверный номер!" -ForegroundColor Red
+                Read-Host "Нажмите Enter, чтобы продолжить"
+            }
+        }
+        catch {
+            Write-Host ""
+            Write-Host "Нужно ввести число!" -ForegroundColor Red
+            Read-Host "Нажмите Enter, чтобы продолжить"
+        }
+    }
 }
 
 
