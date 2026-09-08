@@ -1,0 +1,430 @@
+{
+  "__VERSION__": "260",
+  "FanControl": {
+    "Controls": [
+      {
+        "NickName": "Fan #1",
+        "Identifier": "/lpc/it8696e/control/0",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "кульки"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/it8696e/fan/0"
+        },
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            10,
+            393
+          ],
+          [
+            20,
+            394
+          ],
+          [
+            30,
+            548
+          ],
+          [
+            40,
+            712
+          ],
+          [
+            50,
+            848
+          ],
+          [
+            60,
+            992
+          ],
+          [
+            70,
+            1117
+          ],
+          [
+            80,
+            1234
+          ],
+          [
+            90,
+            1337
+          ],
+          [
+            100,
+            1445
+          ]
+        ]
+      },
+      {
+        "NickName": "Fan #2",
+        "Identifier": "/lpc/it8696e/control/1",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "NickName": "Fan #3",
+        "Identifier": "/lpc/it8696e/control/2",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "NickName": "Fan #4",
+        "Identifier": "/lpc/it8696e/control/3",
+        "IsHidden": false,
+        "Enable": true,
+        "SelectedFanCurve": {
+          "Name": "кульки"
+        },
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "/lpc/it8696e/fan/3"
+        },
+        "SelectedStart": 13,
+        "SelectedStop": 7,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            1,
+            0
+          ],
+          [
+            10,
+            605
+          ],
+          [
+            20,
+            880
+          ],
+          [
+            30,
+            1146
+          ],
+          [
+            40,
+            1417
+          ],
+          [
+            50,
+            1679
+          ],
+          [
+            60,
+            1947
+          ],
+          [
+            70,
+            2211
+          ],
+          [
+            80,
+            2477
+          ],
+          [
+            90,
+            2741
+          ],
+          [
+            100,
+            3013
+          ]
+        ]
+      },
+      {
+        "NickName": "Fan #5",
+        "Identifier": "/lpc/it8696e/control/4",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "NickName": "Fan #6",
+        "Identifier": "/lpc/it8696e/control/5",
+        "IsHidden": true,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": null,
+        "SelectedStart": 0,
+        "SelectedStop": 0,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 50,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": []
+      },
+      {
+        "NickName": "Control 1 - NVIDIA GeForce RTX 5070",
+        "Identifier": "NVApiWrapper/0-GB205-A/control/0",
+        "IsHidden": false,
+        "Enable": false,
+        "SelectedFanCurve": null,
+        "SelectedOffset": 0,
+        "PairedFanSensor": {
+          "Identifier": "NVApiWrapper/0-GB205-A/fan/0"
+        },
+        "SelectedStart": 9,
+        "SelectedStop": 6,
+        "MinimumPercent": 0,
+        "SelectedCommandStepUp": 8,
+        "SelectedCommandStepDown": 8,
+        "ManualControlValue": 100,
+        "ManualControl": false,
+        "ForceApply": false,
+        "Calibration": [
+          [
+            0,
+            0
+          ],
+          [
+            1,
+            1433
+          ],
+          [
+            10,
+            1434
+          ],
+          [
+            20,
+            1434
+          ],
+          [
+            30,
+            1434
+          ],
+          [
+            40,
+            1616
+          ],
+          [
+            50,
+            1934
+          ],
+          [
+            60,
+            2252
+          ],
+          [
+            70,
+            2575
+          ],
+          [
+            80,
+            2888
+          ],
+          [
+            90,
+            3206
+          ],
+          [
+            100,
+            3468
+          ]
+        ]
+      }
+    ],
+    "CustomSensors": [],
+    "FanCurves": [
+      {
+        "Name": "кульки",
+        "IsHidden": false,
+        "CommandMode": 0,
+        "SelectedTempSource": {
+          "Identifier": "/amdcpu/0/temperature/2"
+        },
+        "Points": [
+          "30,20",
+          "40,30",
+          "50,39.5",
+          "55,43.8",
+          "62,55.3",
+          "70,60",
+          "80,80"
+        ],
+        "MaximumTemperature": 120,
+        "MinimumTemperature": 20,
+        "MaximumCommand": 100,
+        "HysteresisConfig": {
+          "ResponseTimeUp": 1,
+          "ResponseTimeDown": 1,
+          "HysteresisValueUp": 2,
+          "HysteresisValueDown": 2,
+          "IgnoreHysteresisAtLimits": true
+        }
+      }
+    ],
+    "FanSensors": [
+      {
+        "Identifier": "/lpc/it8696e/fan/0",
+        "IsHidden": false,
+        "NickName": "Fan #1"
+      },
+      {
+        "Identifier": "/lpc/it8696e/fan/1",
+        "IsHidden": false,
+        "NickName": "Fan #2"
+      },
+      {
+        "Identifier": "/lpc/it8696e/fan/2",
+        "IsHidden": false,
+        "NickName": "Fan #3"
+      },
+      {
+        "Identifier": "/lpc/it8696e/fan/3",
+        "IsHidden": false,
+        "NickName": "Fan #4"
+      },
+      {
+        "Identifier": "/lpc/it8696e/fan/4",
+        "IsHidden": false,
+        "NickName": "Fan #5"
+      },
+      {
+        "Identifier": "/lpc/it8696e/fan/5",
+        "IsHidden": false,
+        "NickName": "Fan #6"
+      },
+      {
+        "Identifier": "NVApiWrapper/0-GB205-A/fan/0",
+        "IsHidden": false,
+        "NickName": "Control 1 - NVIDIA GeForce RTX 5070"
+      }
+    ],
+    "TemperatureSensors": [
+      {
+        "Identifier": "/amdcpu/0/temperature/2",
+        "IsHidden": false,
+        "NickName": "Core (Tctl/Tdie)"
+      },
+      {
+        "Identifier": "/amdcpu/0/temperature/3",
+        "IsHidden": false,
+        "NickName": "CCD1 (Tdie)"
+      },
+      {
+        "Identifier": "/gpu-amd/0/temperature/4",
+        "IsHidden": false,
+        "NickName": "GPU VR SoC"
+      },
+      {
+        "Identifier": "/lpc/it8696e/temperature/0",
+        "IsHidden": false,
+        "NickName": "Temperature #1"
+      },
+      {
+        "Identifier": "/lpc/it8696e/temperature/1",
+        "IsHidden": false,
+        "NickName": "Temperature #2"
+      },
+      {
+        "Identifier": "/lpc/it8696e/temperature/2",
+        "IsHidden": false,
+        "NickName": "Temperature #3"
+      },
+      {
+        "Identifier": "/lpc/it8696e/temperature/3",
+        "IsHidden": false,
+        "NickName": "Temperature #4"
+      },
+      {
+        "Identifier": "/lpc/it8696e/temperature/4",
+        "IsHidden": false,
+        "NickName": "Temperature #5"
+      },
+      {
+        "Identifier": "NVApiWrapper/0-GB205-A/sensor/0",
+        "IsHidden": false,
+        "NickName": "GPU"
+      }
+    ]
+  },
+  "Sensors": {
+    "AdlxWrapperSettings": {
+      "Enabled": true
+    },
+    "DisabledPlugins": [],
+    "DisableStorageSensors": true,
+    "LibreHardwareMonitorSettings": {
+      "Controller": true,
+      "CPU": true,
+      "EmbeddedEC": true,
+      "GPU": true,
+      "Memory": false,
+      "Motherboard": true,
+      "PowerMonitor": false,
+      "PSU": false,
+      "Storage": false,
+      "StorageUpdateInterval": "00:01:00",
+      "ZeroRPMOverride": true
+    },
+    "NvAPIWrapperSettings": {
+      "Enabled": true,
+      "ZeroRPMOverride": true
+    }
+  },
+  "MainWindow": {
+    "Fahrenheit": false,
+    "HideCalibration": false,
+    "HideFanSpeedCards": true,
+    "HorizontalUIOrientation": false,
+    "PrimaryColor": "#FF607D8B",
+    "SecondaryColor": "#FFAEEA00",
+    "SelectedTheme": "",
+    "ShowHiddenCards": false,
+    "SyncThemeWithWindows": true,
+    "SyncTrayIconColorWithWindows": true,
+    "TrayIconColor": null,
+    "TrayIcons": []
+  }
+}
